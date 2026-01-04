@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calming Mind App</title>
+<style>
+  body { margin:0; font-family: 'Times New Roman', serif; transition: background-color 0.3s; background:#e0f7fa; color:#004d40; }
+  .container { max-width:900px; margin:20px auto; padding:20px; background:rgba(255 255 255 / 0.9); border-radius:10px; box-shadow:0 0 12px rgba(0,0,0,0.1); }
+  h1,h2 { text-align:center; color:#00695c; }
+  input, select, button { padding:10px; font-size:16px; border-radius:5px; border:1px solid #b2dfdb; font-family:inherit; }
+  button { cursor:pointer; background:#004d40; color:white; transition:0.3s; }
+  button:hover, button:focus { background:#00695c; outline:none; }
+  .hidden { display:none; }
+  /* Theme Colors */
+  #themeSelector { display:flex; justify-content:center; gap:10px; margin-bottom:15px; }
+  .theme-color { width:32px; height:32px; border-radius:50%; cursor:pointer; border:2px solid transparent; box-shadow:0 0 3px rgba(0,0,0,0.3); }
+  .theme-color.selected { border-color:#004d40; }
+  .theme1 { background:#e0f7fa; } .theme2 { background:#ffe0b2; } .theme3 { background:#f3e5f5; }
+  .theme4 { background:#dcedc8; } .theme5 { background:#ffccbc; } .theme6 { background:#b3e5fc; }
+  .theme7 { background:#fbe9e7; } .theme8 { background:#cfd8dc; }
+  /* Tabs */
+  .tab { display:inline-block; padding:8px 15px; margin-right:5px; background:#004d40; color:white; border-radius:5px; cursor:pointer; }
+  .tab.active { background:#00695c; }
+  .section { margin-top:20px; }
+  .section.active { display:block; }
+  .memoryCard { display:inline-block; width:50px; height:50px; margin:5px; background:#80cbc4; color:white; font-weight:bold; font-size:20px; text-align:center; line-height:50px; cursor:pointer; }
+  #gameArea button { margin:2px; padding:8px 12px; font-weight:bold; }
+  textarea { width:100%; height:100px; margin-top:10px; border-radius:5px; border:1px solid #b2dfdb; font-family:inherit; font-size:16px; }
+  ul { font-size:18px; line-height:1.6; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- Phase 1: Introduction -->
+  <div id="phase1" class="section active">
+    <h1 id="introTitle">Welcome to Calming Mind App</h1>
+    <p id="introText" style="text-align:center;">This app helps you relax, do calming activities, and play mind-relaxing games.</p>
+    <button id="startPhase2">Start</button>
+  </div>
+
+  <!-- Phase 2: User Details -->
+  <div id="phase2" class="section hidden">
+    <h2 id="detailsTitle">Enter Your Details</h2>
+    <input type="text" id="userName" placeholder="Enter Name" required><br><br>
+    <input type="number" id="userAge" placeholder="Enter Age" required min="1" max="120"><br><br>
+    <button id="nextPhase3">Next</button>
+  </div>
+
+  <!-- Phase 3: Language & Theme -->
+  <div id="phase3" class="section hidden">
+    <h2 id="langTitle">Select Language</h2>
+    <select id="languageSelect">
+      <option value="en">English</option>
+      <option value="hi">Hindi</option>
+      <option value="gu">Gujarati</option>
+    </select><br><br>
+    <h2 id="themeTitle">Select Background Theme</h2>
+    <div id="themeSelector">
+      <div class="theme-color theme1 selected" data-color="#e0f7fa"></div>
+      <div class="theme-color theme2" data-color="#ffe0b2"></div>
+      <div class="theme-color theme3" data-color="#f3e5f5"></div>
+      <div class="theme-color theme4" data-color="#dcedc8"></div>
+      <div class="theme-color theme5" data-color="#ffccbc"></div>
+      <div class="theme-color theme6" data-color="#b3e5fc"></div>
+      <div class="theme-color theme7" data-color="#fbe9e7"></div>
+      <div class="theme-color theme8" data-color="#cfd8dc"></div>
+    </div>
+    <button id="nextPhase4">Next</button>
+  </div>
+
+  <!-- Phase 4: Choose Activities or Games -->
+  <div id="phase4" class="section hidden">
+    <h2 id="greetUserHeader">Hello <span id="greetUser"></span>! What do you want to do?</h2>
+    <button id="activitiesBtn">Activities</button>
+    <button id="gamesBtn">Games</button>
+  </div>
+
+  <!-- Phase 5: Activities / Games -->
+  <div id="phase5" class="section hidden">
+    <button id="exitPhase5Btn" style="background:#d9534f;color:white;margin-bottom:10px;">Exit</button>
+    <div id="tabs">
+      <div class="tab active" data-tab="activitiesTab">Activities</div>
+      <div class="tab" data-tab="gamesTab">Games</div>
+    </div>
+    <!-- Activities -->
+    <div id="activitiesTab" class="section active">
+      <h2>Calming Activities</h2>
+      <ul id="activityList">
+        <li>Breathing Exercise: Sit comfortably and take deep breaths for a few minutes.</li>
+        <li>Color Calm: Focus on a color and visualize it filling your mind peacefully.</li>
+        <li>Counting Focus: Slowly count from 1 to 20 and back, focusing on numbers.</li>
+        <li>Blink Relax: Close eyes, slowly open and close for a few rounds to relax vision.</li>
+        <li>Positive Affirmation: Repeat positive statements to yourself silently.</li>
+        <li>Bubble Pop Game: Imagine popping bubbles to release stress.</li>
+        <li>Shape Focus Game: Concentrate on geometric shapes to calm your mind.</li>
+      </ul>
+    </div>
+    <!-- Games -->
+    <div id="gamesTab" class="section">
+      <h2>Mind Games</h2>
+      <button class="game-btn" id="memoryBtn">Memory Game</button>
+      <button class="game-btn" id="mathBtn">Quick Math</button>
+      <button class="game-btn" id="typingBtn">Typing Challenge</button>
+      <button class="game-btn" id="colorMatchBtn">Color Match</button>
+      <button class="game-btn" id="reactionBtn">Quick Reaction</button>
+	<button class="game-btn" id="patternBtn">Pattern Memory</button>
+	<button class="game-btn" id="focusDotBtn">Focus Dot</button>
+	<button class="game-btn" id="emojiMatchBtn">Emoji Match</button>
+      <div id="gameArea"></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+let userData={};
+let translations={
+  en:{
+    introTitle:"Welcome to Calming Mind App",
+    introText:"This app helps you relax, do calming activities, and play mind-relaxing games.",
+    detailsTitle:"Enter Your Details",
+    langTitle:"Select Language",
+    themeTitle:"Select Background Theme",
+    greet:"Hello",
+    activitiesBtn:"Activities",
+    gamesBtn:"Games",
+    exit:"Exit",
+    tabs:{activities:"Activities",games:"Games"},
+    activityList:[
+      "Breathing Exercise: Sit comfortably and take deep breaths for a few minutes.",
+      "Color Calm: Focus on a color and visualize it filling your mind peacefully.",
+      "Counting Focus: Slowly count from 1 to 20 and back, focusing on numbers.",
+      "Blink Relax: Close eyes, slowly open and close for a few rounds to relax vision.",
+      "Positive Affirmation: Repeat positive statements to yourself silently.",
+      "Bubble Pop Game: Imagine popping bubbles to release stress.",
+      "Shape Focus Game: Concentrate on geometric shapes to calm your mind."
+    ]
+  },
+  hi:{
+    introTitle:"कैल्मिंग माइंड ऐप में आपका स्वागत है",
+    introText:"यह ऐप आपको आराम करने, शांत गतिविधियाँ करने और दिमाग़ को शांत करने वाले खेल खेलने में मदद करता है।",
+    detailsTitle:"अपना विवरण दर्ज करें",
+    langTitle:"भाषा चुनें",
+    themeTitle:"बैकग्राउंड थीम चुनें",
+    greet:"नमस्ते",
+    activitiesBtn:"गतिविधियाँ",
+    gamesBtn:"खेल",
+    exit:"बाहर निकलें",
+    tabs:{activities:"गतिविधियाँ",games:"खेल"},
+    activityList:[
+      "सांस लेने का व्यायाम: आराम से बैठें और कुछ मिनटों के लिए गहरी सांस लें।",
+      "रंग शांति: किसी एक रंग पर ध्यान केंद्रित करें और इसे अपने दिमाग में शांतिपूर्वक भरते हुए कल्पना करें।",
+      "गिनती फोकस: 1 से 20 तक धीरे-धीरे गिनती करें और फिर वापस, नंबर पर ध्यान दें।",
+      "ब्लिंक रिलैक्स: आंखें बंद करें, धीरे-धीरे खोलें और बंद करें।",
+      "सकारात्मक पुष्टि: अपने आप से सकारात्मक वाक्य दोहराएँ।",
+      "बबल पॉप गेम: तनाव को कम करने के लिए बबल्स को पॉप करने की कल्पना करें।",
+      "आकार फोकस गेम: दिमाग़ को शांत करने के लिए ज्यामितीय आकृतियों पर ध्यान केंद्रित करें।"
+    ]
+  },
+  gu:{
+    introTitle:"કેલ્મિંગ માઇન્ડ એપમાં આપનું સ્વાગત છે",
+    introText:"આ એપ તમને આરામ કરવા, શાંતિપૂર્ણ પ્રવૃત્તિઓ કરવા અને મનને શાંત રાખવા માટેની રમતો રમવામાં મદદ કરે છે.",
+    detailsTitle:"તમારો વિગત દાખલ કરો",
+    langTitle:"ભાષા પસંદ કરો",
+    themeTitle:"બેકગ્રાઉન્ડ થીમ પસંદ કરો",
+    greet:"હેલો",
+    activitiesBtn:"પ્રવૃત્તિઓ",
+    gamesBtn:"ખેલ",
+    exit:"બહાર નીકળો",
+    tabs:{activities:"પ્રવૃત્તિઓ",games:"ખેલ"},
+    activityList:[
+      "શ્વાસ કસરત: આરામથી બેઠા રહો અને થોડા મિનિટો માટે ઊંડી શ્વાસ લો.",
+      "રંગ શાંતિ: એક રંગ પર ધ્યાન કેન્દ્રિત કરો અને તેને તમારા મગજમાં શાંત રીતે ભરી રહ્યા હોવાની કલ્પના કરો.",
+      "ગણતરી ફોકસ: ધીમે ધીમે 1 થી 20 સુધી ગણતરી કરો અને પાછું, નંબરો પર ધ્યાન કેન્દ્રિત કરો.",
+      "બ્લિંક રિલેક્સ: આંખો બંધ કરો, ધીમે ધીમે ખોલો અને બંધ કરો.",
+      "ધનાત્મક પુષ્ટિ: તમારા માટે સકારાત્મક નિવેદનો ફરીથી પુનરાવૃત્તિ કરો.",
+      "બબલ પૉપ ગેમ: તણાવને મુક્ત કરવા માટે બબલ્સ પૉપ કરવાની કલ્પના કરો.",
+      "આકાર ફોકસ ગેમ: તમારા મનને શાંત કરવા માટે ભૂમિતિના આકારો પર ધ્યાન કેન્દ્રિત કરો."
+    ]
+  }
+};
+
+// --- Phase Navigation ---
+function showPhase(num){ [1,2,3,4,5].forEach(i=>document.getElementById("phase"+i).classList.add("hidden")); document.getElementById("phase"+num).classList.remove("hidden"); }
+
+document.getElementById("startPhase2").addEventListener("click",()=>showPhase(2));
+document.getElementById("nextPhase3").addEventListener("click",()=>{
+  const name=document.getElementById("userName").value.trim();
+  const age=document.getElementById("userAge").value;
+  if(!name || !age){ alert("Please enter details"); return;}
+  userData.name=name; userData.age=age;
+  showPhase(3);
+});
+document.getElementById("nextPhase4").addEventListener("click",()=>{
+  userData.language=document.getElementById("languageSelect").value;
+  applyLanguage(userData.language);
+  showPhase(4);
+  document.getElementById("greetUser").textContent=userData.name;
+});
+
+// --- Apply Language ---
+function applyLanguage(lang){
+  const t=translations[lang];
+  document.getElementById("introTitle").textContent=t.introTitle;
+  document.getElementById("introText").textContent=t.introText;
+  document.getElementById("detailsTitle").textContent=t.detailsTitle;
+  document.getElementById("langTitle").textContent=t.langTitle;
+  document.getElementById("themeTitle").textContent=t.themeTitle;
+  document.getElementById("activitiesBtn").textContent=t.activitiesBtn;
+  document.getElementById("gamesBtn").textContent=t.gamesBtn;
+  document.getElementById("exitPhase5Btn").textContent=t.exit;
+  document.querySelector("#tabs .tab[data-tab='activitiesTab']").textContent=t.tabs.activities;
+  document.querySelector("#tabs .tab[data-tab='gamesTab']").textContent=t.tabs.games;
+  // Activities
+  const ul=document.getElementById("activityList"); ul.innerHTML="";
+  t.activityList.forEach(a=>{ const li=document.createElement("li"); li.textContent=a; ul.appendChild(li); });
+}
+
+// --- Theme Selector ---
+document.querySelectorAll(".theme-color").forEach(tc=>{
+  tc.addEventListener("click",()=>{
+    document.body.style.backgroundColor=tc.dataset.color;
+    document.querySelectorAll(".theme-color").forEach(c=>c.classList.remove("selected"));
+    tc.classList.add("selected");
+  });
+});
+
+// --- Phase 4 Buttons ---
+document.getElementById("activitiesBtn").addEventListener("click",()=>showPhase(5));
+document.getElementById("gamesBtn").addEventListener("click",()=>showPhase(5));
+
+// --- Phase 5 Tabs ---
+document.querySelectorAll("#tabs .tab").forEach(tab=>{
+  tab.addEventListener("click",()=>{
+    document.querySelectorAll("#tabs .tab").forEach(t=>t.classList.remove("active"));
+    tab.classList.add("active");
+    document.getElementById("activitiesTab").classList.remove("active");
+    document.getElementById("gamesTab").classList.remove("active");
+    document.getElementById(tab.dataset.tab).classList.add("active");
+  });
+});
+
+// --- Exit Phase 5 ---
+document.getElementById("exitPhase5Btn").addEventListener("click",()=>showPhase(4));
+
+// --- Games ---
+const gameArea=document.getElementById("gameArea");
+function memoryGame(){ const cards=['A','A','B','B','C','C','D','D']; cards.sort(()=>Math.random()-0.5); let first=null,second=null,lock=false,matched=0; gameArea.innerHTML=''; const grid=document.createElement('div'); grid.id='memoryGrid'; cards.forEach(c=>{ const div=document.createElement('div'); div.className='memoryCard'; div.textContent='?'; div.addEventListener('click',()=>{ if(lock||div.textContent!=='?') return; div.textContent=c; if(!first) first=div; else{ second=div; if(first.textContent===second.textContent){ first=null; second=null; matched+=2; if(matched===cards.length){ alert("You won Memory Game!"); showPhase(4);} } else{ lock=true; setTimeout(()=>{ first.textContent='?'; second.textContent='?'; first=null; second=null; lock=false;},800); } } }); grid.appendChild(div); }); gameArea.appendChild(grid);}
+function mathGame(){ gameArea.innerHTML=''; const n1=Math.floor(Math.random()*20+1); const n2=Math.floor(Math.random()*20+1); const ans=n1+n2; const q=document.createElement('div'); q.textContent=`Solve: ${n1} + ${n2}`; const input=document.createElement('input'); input.type='number'; const btn=document.createElement('button'); btn.textContent='Check'; btn.addEventListener('click',()=>{ if(parseInt(input.value)===ans){ alert("Correct! You won Math Game!"); showPhase(4);} else{ alert(`Wrong! Answer: ${ans}`);}}); gameArea.append(q,input,btn);}
+function typingGame(){ const words=["calm","peace","mind","focus","happy","relax","smile"]; const word=words[Math.floor(Math.random()*words.length)]; gameArea.innerHTML=''; const q=document.createElement('div'); q.textContent=`Type this word: ${word}`; const input=document.createElement('input'); const btn=document.createElement('button'); btn.textContent='Check'; btn.addEventListener('click',()=>{ if(input.value.trim()===word){ alert("Correct! You won Typing Challenge!"); showPhase(4);} else{ alert(`Incorrect! Word: ${word}`); }}); gameArea.append(q,input,btn);}
+function colorMatchGame(){ gameArea.innerHTML=''; const colors=['red','green','blue','yellow','purple','orange']; const color=colors[Math.floor(Math.random()*colors.length)]; const q=document.createElement('div'); q.textContent=`Click the color: ${color}`; gameArea.appendChild(q); colors.forEach(c=>{ const b=document.createElement('button'); b.style.backgroundColor=c; b.textContent=c; b.style.color='white'; b.addEventListener('click',()=>{ if(c===color){ alert("Correct! You won Color Match!"); showPhase(4);} else{ alert("Wrong! Try again."); }}); gameArea.appendChild(b); });}
+function reactionGame(){ gameArea.innerHTML=''; const btn=document.createElement('button'); btn.textContent='Wait for Green...'; btn.disabled=true; gameArea.appendChild(btn); const wait=Math.random()*3000+1000; setTimeout(()=>{ btn.disabled=false; btn.textContent='Click Now!'; const start=Date.now(); btn.onclick=()=>{ const end=Date.now(); alert(`Reaction Time: ${end-start} ms\nYou completed Quick Reaction!`); showPhase(4);} },wait);}
+function patternGame(){
+  gameArea.innerHTML="";
+  const pattern=[];
+  const user=[];
+  const colors=["red","green","blue","yellow"];
+  const info=document.createElement("div");
+  info.textContent="Watch the pattern";
+  gameArea.appendChild(info);
+
+  const buttons=document.createElement("div");
+  colors.forEach(c=>{
+    const b=document.createElement("button");
+    b.style.background=c;
+    b.style.color="white";
+    b.style.margin="5px";
+    b.textContent=c;
+    b.onclick=()=>{
+      user.push(c);
+      if(user[user.length-1]!==pattern[user.length-1]){
+        alert("Wrong Pattern!");
+        showPhase(4);
+      }
+      if(user.length===pattern.length){
+        alert("Great Memory! 🎉");
+        showPhase(4);
+      }
+    };
+    buttons.appendChild(b);
+  });
+  gameArea.appendChild(buttons);
+
+  pattern.push(colors[Math.floor(Math.random()*4)]);
+  let i=0;
+  const show=setInterval(()=>{
+    info.textContent=pattern[i];
+    i++;
+    if(i===pattern.length){
+      clearInterval(show);
+      info.textContent="Repeat the pattern";
+    }
+  },800);
+}
+function focusDotGame(){
+  gameArea.innerHTML="";
+  const dot=document.createElement("div");
+  dot.style.width="40px";
+  dot.style.height="40px";
+  dot.style.borderRadius="50%";
+  dot.style.background="green";
+  dot.style.margin="50px auto";
+  dot.style.cursor="pointer";
+  gameArea.appendChild(dot);
+
+  let clicks=0;
+  dot.onclick=()=>{
+    clicks++;
+    if(clicks===5){
+      alert("Excellent Focus! 👁️");
+      showPhase(4);
+    }
+  };
+}
+function emojiMatchGame(){
+  gameArea.innerHTML="";
+  const emojis=["😀","😀","🌸","🌸","⭐","⭐"];
+  emojis.sort(()=>Math.random()-0.5);
+  let first=null;
+
+  emojis.forEach(e=>{
+    const card=document.createElement("div");
+    card.className="memoryCard";
+    card.textContent="❓";
+    card.onclick=()=>{
+      if(card.textContent!=="❓") return;
+      card.textContent=e;
+      if(!first) first=card;
+      else{
+        if(first.textContent!==card.textContent){
+          setTimeout(()=>{
+            first.textContent="❓";
+            card.textContent="❓";
+            first=null;
+          },700);
+        } else first=null;
+      }
+    };
+    gameArea.appendChild(card);
+  });
+}
+
+// --- Game Button Listeners ---
+document.getElementById("memoryBtn").addEventListener('click',memoryGame);
+document.getElementById("mathBtn").addEventListener('click',mathGame);
+document.getElementById("typingBtn").addEventListener('click',typingGame);
+document.getElementById("colorMatchBtn").addEventListener('click',colorMatchGame);
+document.getElementById("reactionBtn").addEventListener('click',reactionGame);
+document.getElementById("patternBtn").addEventListener("click",patternGame);
+document.getElementById("focusDotBtn").addEventListener("click",focusDotGame);
+document.getElementById("emojiMatchBtn").addEventListener("click",emojiMatchGame);
+
+</script>
+</body>
+</html>
